@@ -40,7 +40,7 @@ jobs:
 
 
     - name: Terraform Init
-      run: terraform init -backend-config="bucket=${{ secrets.BUCKET_NAME }}" -backend-config="key=${{ secrets.PRODUCTION_BUCKET_KEY_NAME }}" -backend-config="region=${{ secrets.REGION }}" -backend-config="dynamodb_table=${{ secrets.DYNAMODB_TABLE }}" -backend-config="encrypt=true"
+      run: terraform init -input=false
 
 
     - name: Terraform Validate
