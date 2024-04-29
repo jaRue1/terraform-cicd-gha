@@ -1,3 +1,14 @@
+terraform {
+  backend "s3" {
+    bucket         = "terraform-state-bucket-gha-2024"
+    key            = "staging/terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "terraform-state-lock-table-gha-2024"
+    encrypt        = true
+  }
+}
+
+
 module "staging-lambda" {
   source        = "../../core/hw-lambda"
   handler       = "lambda.handler"
