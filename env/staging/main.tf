@@ -1,5 +1,5 @@
 terraform {
-  backend "local" {}
+  backend "s3" {}
 }
 module "staging-lambda" {
   source           = "../../core/hw-lambda"
