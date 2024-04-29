@@ -17,7 +17,7 @@ resource "aws_iam_role" "lambda_role" {
 # CloudWatch Logs Permissions for Lambda
 resource "aws_iam_policy" "lambda_logs_policy" {
   name        = "${var.environment}-lambda-logs-policy"
-  description = "IAM policy for logging from a cron lambda"
+  description = "IAM policy for logging with lambda"
 
   policy = jsonencode({
     Version = "2012-10-17"
