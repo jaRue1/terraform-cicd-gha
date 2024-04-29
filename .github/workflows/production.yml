@@ -4,6 +4,8 @@ on:
     branches:
       - master
   pull_request:
+    branches:
+      - master
 permissions:
     contents: read # This is required for actions/checkout
     pull-requests: write # This is required for gh bot to comment PR
