@@ -1,8 +1,8 @@
 name: 'Production Terraform Plan and Apply' 
 on:
-  push:
-    branches:
-      - master
+  # push:
+  #   branches:
+  #     - master
   pull_request:
     branches:
       - master
