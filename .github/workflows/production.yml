@@ -98,31 +98,27 @@ jobs:
     
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      run: |
-        terraform apply -auto-approve -input=false
-        exit_status=$?
-    
-        if [ $exit_status -eq 0 ]; then
-          # Increment version number
-          # Example: Read version from a file
-          version=$(cat VERSION)
-          # Increment the version
-          new_version=$(echo $version | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
-          echo $new_version > VERSION
-    
-          # Create release
-          release_title="Production Deployment $new_version"
-          release_body=$(echo "#### Terraform Plan 📖\n${process.env.PLAN}")
-          gh release create "$new_version" -t "$release_title" -n "$release_body"
-        else
-          echo "Terraform apply failed, not creating a release."
-          exit 1
-        fi
-    
+      run: terraform apply -auto-approve -input=false
+
+    - name: Bump version and push tag
+      id: bump_version
+      uses: anothrNick/github-tag-action@1.47.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: true
+        DEFAULT_BUMP: patch
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.bump_version.outputs.tag }}
+        release_name: Release ${{ steps.bump_version.outputs.tag }}
+        draft: false
 
       # need to publish a release with the version number of the infrastructure the version number should increment with each production deployment
       # it should be in the format of v0.0.1
       # the release should be published only when the terraform apply is successful
-      # the release should have a title of "Production Deployment v0.0.1" and a description that includes the output of the terraform plan 
-
-      
+      # the release should have a title of "Production Deployment v0.0.1" and a description that includes the output of the terraform plan to 
