@@ -113,7 +113,8 @@ jobs:
         WITH_V: true
         DEFAULT_BUMP: patch
         VERSION: ${{ steps.get_latest_version.outputs.version }}
-
+        PRERELEASE_SUFFIX: '-staging'
+        
     - name: Tag commit with version number
       if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
       run: git tag -a ${{ steps.bump_version.outputs.tag }} -m "Staging deployment"
