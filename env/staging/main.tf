@@ -14,6 +14,10 @@ terraform {
   }
 }
 
+provider "aws" {
+  region = "us-east-1"
+  
+}
 
 # module "staging-lambda" {
 #   source        = "../../core/hw-lambda"

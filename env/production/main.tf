@@ -13,7 +13,10 @@ terraform {
     encrypt        = true
   }
 }
-
+provider "aws" {
+  region = "us-east-1"
+  
+}
 resource "s3" "example" {
   bucket = "my-tf-test-bucket-gha-2024"
 }
