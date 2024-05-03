@@ -8,6 +8,9 @@ terraform {
   }
 }
 
+resource "s3" "example" {
+  bucket = "my-tf-test-bucket-gha-2024"
+}
 
 # module "production-lambda" {
 #   source        = "../../core/hw-lambda"

@@ -99,3 +99,9 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
+
+      # when a deployment is successful we want to tag the commit with the version starting with v0.0.1
+      # the version will be incremented by 1 for each deployment to staging
+
+      # this tag will be used as the version number in the production deployment
+
