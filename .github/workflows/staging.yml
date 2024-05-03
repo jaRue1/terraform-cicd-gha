@@ -102,19 +102,20 @@ jobs:
 
     - name: Get latest version
       id: get_latest_version
-      run: |
-        latest_tag=$(git describe --abbrev=0)
-        current_version="${latest_tag#*v}" # Remove "v" prefix
-        IFS='.' read -r -a version_parts <<< "$current_version"
-        major="${version_parts[0]}"
-        minor="${version_parts[1]}"
-        patch="${version_parts[2]}"
-        patch=$((patch + 1))
-        new_tag="v$major.$minor.$patch"
-        echo "::set-output name=new_tag::$new_tag"
+      run: echo "::set-output name=version::$(git describe --tags --abbrev=0)"
+
+    - name: Bump version and push tag
+      if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
+      id: bump_version
+      uses: anothrNick/github-tag-action@1.47.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: true
+        DEFAULT_BUMP: patch
+        VERSION: ${{ steps.get_latest_version.outputs.version }}
 
     - name: Tag commit with version number
       if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
-      run: git tag -a ${{ steps.get_latest_version.outputs.new_tag }} -m "Staging deployment"
+      run: git tag -a ${{ steps.bump_version.outputs.tag }} -m "Staging deployment"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
