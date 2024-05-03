@@ -110,10 +110,10 @@ jobs:
       uses: anothrNick/github-tag-action@1.47.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        WITH_V: true
+        # WITH_V: true
         DEFAULT_BUMP: patch
         VERSION: ${{ steps.get_latest_version.outputs.version }}
-        PRERELEASE_SUFFIX: '-staging'
+        PRERELEASE_SUFFIX: 'staging'
         
     - name: Tag commit with version number
       if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
