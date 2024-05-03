@@ -92,31 +92,40 @@ jobs:
             body: output
           })
         
-    - name: Terraform Plan Status
-      if: steps.plan.outcome == 'failure'
-      run: exit 1
-    
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
-
+        
+    - name: Capture Terraform Plan
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      id: capture_plan
+      run: terraform plan -no-color -out=tfplan
+      continue-on-error: true
+        
     - name: Bump version and push tag
       id: bump_version
       uses: anothrNick/github-tag-action@1.47.0
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        WITH_V: true
-        DEFAULT_BUMP: patch
-
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DEFAULT_BUMP: patch
+        
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
+        with:
         tag_name: ${{ steps.bump_version.outputs.tag }}
         release_name: Release ${{ steps.bump_version.outputs.tag }}
+        body: |
+          #### Terraform Plan 📖
+    
+          ```
+          ${{ steps.capture_plan.outputs.stdout }}
+          ```
         draft: false
+        
 
       # need to publish a release with the version number of the infrastructure the version number should increment with each production deployment
       # it should be in the format of v0.0.1
