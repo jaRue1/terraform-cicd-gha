@@ -1,4 +1,10 @@
 terraform {
+    required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.47.0"
+    }
+  }
   backend "s3" {
     bucket         = "terraform-state-bucket-gha-2024"
     key            = "production/terraform.tfstate"
