@@ -106,25 +106,25 @@ jobs:
       id: bump_version
       uses: anothrNick/github-tag-action@1.47.0
       env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
-          DEFAULT_BUMP: patch
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: true
+        DEFAULT_BUMP: patch
         
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
+      with:
         tag_name: ${{ steps.bump_version.outputs.tag }}
         release_name: Release ${{ steps.bump_version.outputs.tag }}
+        draft: false
         body: |
           #### Terraform Plan 📖
     
           ```
           ${{ steps.capture_plan.outputs.stdout }}
           ```
-        draft: false
         
 
       # need to publish a release with the version number of the infrastructure the version number should increment with each production deployment
