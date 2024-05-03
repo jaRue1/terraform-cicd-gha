@@ -1,5 +1,5 @@
 terraform {
-     required_providers {
+  required_providers {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 5.47.0"
@@ -14,10 +14,6 @@ terraform {
   }
 }
 
-provider "aws" {
-  region = "us-east-1"
-  
-}
 
 # module "staging-lambda" {
 #   source        = "../../core/hw-lambda"

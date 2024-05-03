@@ -17,10 +17,10 @@ provider "aws" {
   region = "us-east-1"
   
 }
-resource "s3" "example" {
-  bucket = "my-tf-test-bucket-gha-2024"
-}
 
+resource "aws_s3_bucket" "example" {
+  bucket = "my-prod-test-bucket-gha-2024"
+}
 # module "production-lambda" {
 #   source        = "../../core/hw-lambda"
 #   handler       = "lambda.handler"
