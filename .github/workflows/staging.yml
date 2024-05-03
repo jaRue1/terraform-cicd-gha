@@ -100,8 +100,22 @@ jobs:
       if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
 
-      # when a deployment is successful we want to tag the commit with the version starting with v0.0.1
-      # the version will be incremented by 1 for each deployment to staging
+    - name: Get latest version
+      id: get_latest_version
+      run: echo "::set-output name=version::$(git describe --tags --abbrev=0)"
 
-      # this tag will be used as the version number in the production deployment
+    - name: Bump version and push tag
+      if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
+      id: bump_version
+      uses: anothrNick/github-tag-action@1.47.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: true
+        DEFAULT_BUMP: patch
+        VERSION: ${{ steps.get_latest_version.outputs.version }}
 
+    - name: Tag commit with version number
+      if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
+      run: git tag -a ${{ steps.bump_version.outputs.tag }} -m "Staging deployment"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
