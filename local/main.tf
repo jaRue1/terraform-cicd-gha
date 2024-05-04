@@ -12,10 +12,10 @@ terraform {
   }
 }
 
-module "tf-state" {
-  source          = "../modules/tf-state"
-  bucket_name     = "terraform-state-bucket-gha-2024"
-  bucket_tag_name = "terraform-state-bucket-gha-2024-tag"
-  table_name      = "terraform-state-lock-table-gha-2024"
-  table_tag_name  = "terraform-state-lock-table-gha-2024-tag"
-}
+# module "tf-state" {
+#   source          = "../modules/tf-state"
+#   bucket_name     = "your-bucket-name"
+#   bucket_tag_name = "your-bucket-tag-name"
+#   table_name      = "your-table-name"
+#   table_tag_name  = "your-table-tag-name"
+# }
