@@ -21,6 +21,7 @@ Repository Setup
 
 1. Create a new GitHub repository
 1. Clone this repository to your local machine
+1. Check out the `setup` branch
 1. run the cmd `rm -rf .git` to remove the git history
 1. run the cmd `git init` to initialize a new git repository
 1. run the cmd `git add .` to add all files to the git repository
