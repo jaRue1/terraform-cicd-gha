@@ -18,9 +18,9 @@ provider "aws" {
   
 }
 
-resource "aws_s3_bucket" "example" {
-  bucket = "my-prod-test-bucket-gha-2024"
-}
+# resource "aws_s3_bucket" "example" {
+#   bucket = "my-prod-test-bucket-gha-2024"
+# }
 # module "production-lambda" {
 #   source        = "../../core/hw-lambda"
 #   handler       = "lambda.handler"

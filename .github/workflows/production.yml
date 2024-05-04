@@ -128,8 +128,3 @@ jobs:
           ${{ steps.capture_plan.outputs.stdout }}
           ```
         
-
-      # need to publish a release with the version number of the infrastructure the version number should increment with each production deployment
-      # it should be in the format of v0.0.1
-      # the release should be published only when the terraform apply is successful
-      # the release should have a title of "Production Deployment v0.0.1" and a description that includes the output of the terraform plan to 
